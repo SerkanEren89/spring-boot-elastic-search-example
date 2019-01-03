@@ -1,0 +1,28 @@
+version: '3.2'
+
+#Elastic search container
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
+    container_name: elasticsearch
+    environment:
+      - cluster.name=docker-cluster
+      - node.name=elasticsearch
+      - bootstrap.memory_lock=false
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      #Heap size min/max
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+
+volumes:
+  esdata1:
+    driver: local
