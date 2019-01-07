@@ -2,9 +2,19 @@ package com.example.elasticsearch.service.impl;
 
 import com.example.elasticsearch.dto.BookDto;
 import com.example.elasticsearch.mapper.BookMapper;
+import com.example.elasticsearch.model.Book;
 import com.example.elasticsearch.repository.BookRepository;
 import com.example.elasticsearch.service.BookService;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
+import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
 
 /**
  * Book service implementation
@@ -27,7 +37,30 @@ public class BookServiceImpl implements BookService {
      * {@inheritDoc}
      */
     @Override
-    public BookDto getBookById(Long id) {
+    public BookDto getBookById(final Long id) {
         return bookRepository.findById(id).map(bookMapper::toBookDto).orElse(null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<BookDto> createBookList(List<BookDto> bookDtoList){
+        List<Book> bookList = bookDtoList.stream().map(bookMapper::toBook).collect(Collectors.toList());
+        return StreamSupport.stream(bookRepository.saveAll(bookList).spliterator(), false)
+                .map(bookMapper::toBookDto)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<BookDto> search(String searchTerm) {
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+                .withQuery(multiMatchQuery("title", searchTerm).minimumShouldMatch("75%"))
+                .build();
+
+        return null;
     }
 }
