@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.1.1.RELEASE'
+		springBootVersion = '2.0.4.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -28,7 +28,7 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
-	implementation('org.springframework.boot:spring-boot-starter-data-elasticsearch')
+	compile('org.springframework.boot:spring-boot-starter-data-elasticsearch')
 	compileOnly('org.projectlombok:lombok')
 	apt('org.mapstruct:mapstruct-processor:1.2.0.Final')
 	compileOnly('org.mapstruct:mapstruct-jdk8:1.2.0.Final')

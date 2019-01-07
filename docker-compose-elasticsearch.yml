@@ -3,7 +3,7 @@ version: '3.2'
 #Elastic search container
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.3
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
     container_name: elasticsearch
     environment:
       - cluster.title=docker-cluster
