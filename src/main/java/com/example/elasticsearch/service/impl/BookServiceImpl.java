@@ -12,6 +12,8 @@ import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -52,6 +54,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDto> createBookList(List<BookDto> bookDtoList){
         List<Book> bookList = bookDtoList.stream().map(bookMapper::toBook).collect(Collectors.toList());
+        bookList.forEach(book -> book.setId(new Random().nextLong()));
         return StreamSupport.stream(bookRepository.saveAll(bookList).spliterator(), false)
                 .map(bookMapper::toBookDto)
                 .collect(Collectors.toList());
