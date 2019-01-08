@@ -29,6 +29,9 @@ repositories {
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-data-elasticsearch')
+	compile('org.elasticsearch.client:transport')
+	compile('org.elasticsearch.client:elasticsearch-rest-client')
+	compile('org.elasticsearch.plugin:transport-netty4-client')
 	compileOnly('org.projectlombok:lombok')
 	apt('org.mapstruct:mapstruct-processor:1.2.0.Final')
 	compileOnly('org.mapstruct:mapstruct-jdk8:1.2.0.Final')

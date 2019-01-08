@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Date;
 @Document(indexName = "books", type = "book")
 @Data
 @NoArgsConstructor
-public class Book {
+public class Book implements Serializable {
 
     @Id
     private Long id;
