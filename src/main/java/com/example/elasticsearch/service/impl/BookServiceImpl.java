@@ -5,7 +5,6 @@ import com.example.elasticsearch.mapper.BookMapper;
 import com.example.elasticsearch.model.Book;
 import com.example.elasticsearch.repository.BookRepository;
 import com.example.elasticsearch.service.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -31,7 +29,6 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
     private final ElasticsearchTemplate esTemplate;
 
-    @Autowired
     public BookServiceImpl(BookRepository bookRepository,
                            BookMapper bookMapper,
                            ElasticsearchTemplate esTemplate) {
@@ -66,7 +63,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDto> search(String searchTerm) {
         SearchQuery searchQuery = new NativeSearchQueryBuilder()
-                .withQuery(multiMatchQuery(searchTerm,"title", "author").minimumShouldMatch("75%"))
+                .withQuery(multiMatchQuery(searchTerm,"title", "author", "description").minimumShouldMatch("75%"))
                 .build();
         return esTemplate.queryForList(searchQuery, Book.class)
                 .stream().map(bookMapper::toBookDto).collect(Collectors.toList());
