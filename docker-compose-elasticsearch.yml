@@ -1,18 +1,7 @@
-version: '2.1'
+version: '3.6'
 
 #Elastic search api container
 services:
-  elasticsearch_api:
-    container_name: 'elasticsearch_api'
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    restart: 'on-failure'
-    ports:
-      - '8081:8081'
-    depends_on:
-      elasticsearch:
-        condition: service_started
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.4.3
     ports:
